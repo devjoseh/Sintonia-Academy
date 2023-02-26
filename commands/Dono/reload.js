@@ -1,52 +1,50 @@
-const { MessageEmbed } = require('discord.js')
-const ss = require('../../configs/settings.json')
+const { MessageEmbed } = require('discord.js');
+const ss = require('../../configs/settings.json');
 
 module.exports = {
-name: "reload",
+  name: "reload",
 
-run: async (client, message, args) => {
+  run: async (client, message, args) => {
+    const usersId = ['434791887241740288', '852657010273288193'];
 
-if (!['434791887241740288'].includes(message.author.id)) return
+    if(!usersId.includes(message.author.id)) return
 
+    if (!args[0]) {
+      const categoryEmbed = new MessageEmbed()
+        .setTitle(ss.titulo)
+        .setDescription("Informe o nome da categoria do comando que você deseja reiniciar!")
+        .setColor(ss.color)
+        .setFooter({ text: ss.footer, iconURL: client.user.displayAvatarURL({dynamic: true}) });
+      return message.channel.send({ embeds: [categoryEmbed] });
+    }
 
-if (!args[0]) {
-const embed1 = new MessageEmbed()
-.setTitle(ss.titulo)
-.setDescription(`Informe o nome da categoria do comando que você deseja reiniciar!`)
-.setColor(ss.color)
-.setFooter({ text: ss.footer, iconURL: `${client.user.displayAvatarURL({dynamic: true})}`})
-return message.reply({ embeds: [embed1]})
-}
+    if (!args[1]) {
+      const commandEmbed = new MessageEmbed()
+        .setTitle(ss.titulo)
+        .setDescription("Informe o nome do comando que você deseja reiniciar!")
+        .setColor(ss.color)
+        .setFooter({ text: ss.footer, iconURL: client.user.displayAvatarURL({dynamic: true}) });
+      return message.channel.send({ embeds: [commandEmbed] });
+    }
 
-if (!args[1]) {
-const embed2 = new MessageEmbed()
-.setTitle(ss.titulo)
-.setDescription(`Informe o nome do comando que você deseja reiniciar!`)
-.setColor(ss.color)
-.setFooter({ text: ss.footer, iconURL: `${client.user.displayAvatarURL({dynamic: true})}`})
-return message.reply({ embeds: [embed2]})
-}
+    const category = args[0].toLowerCase();
+    const command = args[1].toLowerCase();
 
-let category = args[0].toLowerCase()
-let command = args[1].toLowerCase()
+    try {
+      delete require.cache[require.resolve(`../../commands/${category}/${command}.js`)];
+      client.commands.delete(command);
 
-try {
-delete require.cache[require.resolve(`../../commands/${category}/${command}.js`)];
-client.commands.delete(command);
+      const pull = require(`../../commands/${category}/${command}.js`);
+      client.commands.set(command, pull);
 
-const pull = require(`../../commands/${category}/${command}.js`)
-client.commands.set(command, pull)
-
-const embed3 = new MessageEmbed()
-.setTitle(ss.titulo)
-.setDescription(`<a:aCheck:771439204378738749> O Comando **${command}** foi Recarregado com sucesso`)
-.setColor(ss.color)
-.setFooter({ text: ss.footer, iconURL: `${client.user.displayAvatarURL({dynamic: true})}`})
-message.reply({ embeds: [embed3]})
-
-} catch (error) {
-return message.reply(`Não foi possivel dar reload neste comando, erro: \n\n \`\`\`${error}\`\`\``)
-}
-
-}
+      const successEmbed = new MessageEmbed()
+        .setTitle(ss.titulo)
+        .setDescription(`O Comando ${command} foi Recarregado com sucesso`)
+        .setColor(ss.color)
+        .setFooter({ text: ss.footer, iconURL: client.user.displayAvatarURL({dynamic: true}) });
+      message.channel.send({ embeds: [successEmbed] });
+    } catch (error) {
+      return message.channel.send(`Não foi possivel dar reload neste comando, erro: \n\n \`\`\`${error}\`\`\``);
+    }
+  }
 }

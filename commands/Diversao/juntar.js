@@ -42,7 +42,7 @@ if (!FirstUser) {
     .setColor(ss.color)
     return message.reply({ embeds: [embed3]});
 }
-              
+
 if (!SecondUser) {
     const embed4 = new MessageEmbed()
     .setTitle(ss.titulo)

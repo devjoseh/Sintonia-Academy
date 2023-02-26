@@ -35,8 +35,5 @@ let embed2 = new MessageEmbed()
 .setColor(ss.color)
 message.reply({ embeds: [embed2],  components: [row]})
 }
-
-
-
 }
 }
