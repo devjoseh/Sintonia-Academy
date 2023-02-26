@@ -1,0 +1,17 @@
+{
+	"color": "#2F3136",
+	"titulo": "Sintonia Academy 🌴",
+	"footer": "Copyright © 2023, Sintonia Academy. Todos os direitos reservados.",
+
+	"ip": "mtasa://149.56.41.53:22063",
+
+	"cooldowns": {
+		"message": "Aguarde: `<duration>` para executar o comando novamente!"
+	},
+	
+	"erromsg": {
+		"titulo": "⚠ Ocorreu um Erro! ⚠"
+	}
+
+
+}

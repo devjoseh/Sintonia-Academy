@@ -1,0 +1,9 @@
+# Pastas #
+
+node_modules
+
+# Arquivos #
+
+token_bot.txt
+json.sqlite
+package-lock.json
